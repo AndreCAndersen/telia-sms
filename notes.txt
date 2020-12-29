@@ -1,0 +1,99 @@
+Telia API Notes
+
+---
+
+    contact_data_example = {
+        "City": "i",
+        "ContactId": "42",
+        "Email": "c",
+        "Employer": "Some Company AS",
+        "EmployerCity": "j",
+        "EmployerFax": "d",
+        "EmployerPhone": "b",
+        "EmployerStreetAddress": "f",
+        "EmployerZipCode": "h",
+        "Favorite": "true",
+        "FirstName": "Test",
+        "MobileNumber": "98712345",
+        "PhoneNumber": "a",
+        "StreetAddress": "e",
+        "SurName": "Tester",
+        "Synchronize": "false",
+        "ZipCode": "g",
+    }
+
+    contact_data_get_all = session.get("https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/contacts?msisdn=47{}".format(self.from_phone))
+    contact_data_post = session.post("https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/contacts/?msisdn=47{}".format(self.from_phone))
+
+    contact_id = 42
+    contact_data_put = session.put(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/contacts/{}?msisdn=47{}".format(
+            contact_id,
+            self.from_phone
+        )
+    )
+    contact_data_delete = session.delete(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/contacts/{}?msisdn=47{}".format(
+            contact_id,
+            self.from_phone
+        )
+    )
+
+    all_groups = session.get("https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/groups?msisdn=47" + self.from_phone)
+    group_name = 'My group name'
+    create_one_group = session.post(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/groups/{}?msisdn=47{}".format(
+            group_name,
+            self.from_phone,
+        )
+    )
+    read_one_group = session.get(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/groups/{}?msisdn=47{}".format(
+            group_name,
+            self.from_phone,
+        )
+    )
+    delete_one_group_member = session.delete(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/groups/{}?msisdn=47{}".format(
+            group_name,
+            self.from_phone,
+        )
+    )
+
+    add_one_contact_to_group = session.put(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/groups/Testgruppe/contacts/{}?msisdn=47".format(
+            contact_id,
+            self.from_phone,
+        )
+    )
+    read_one_contact_to_group = session.get(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/groups/Testgruppe/contacts/{}?msisdn=47".format(
+            contact_id,
+            self.from_phone,
+        )
+    )
+    delete_one_contact_from_group = session.delete(
+        "https://min-side.telia.no/re/api/mssa-proxy/no/rs/addressbook/groups/Testgruppe/contacts/{}?msisdn=47".format(
+            contact_id,
+            self.from_phone,
+        )
+    )
+
+    balance_payload = {
+        "BalanceDate": "2020-12-29T02:08:00+01:00",
+        "MonthlyQuota": "2000",
+        "MonthlyQuotaUsed": "1",
+        "SmsRemaining": "999",
+    }
+    things = session.get("https://min-side.telia.no/re/api/mssa-proxy/no/rs/messaging/sms/balance?msisdn=47" + self.from_phone)
+
+
+    sms_payload = {
+        "Content": "This is a test.",
+        "Destinations": [{'Msisdn': "4798712345", 'StatusCode': "4", 'StatusMessage': "OK"}],
+        "Id": "123124",
+        "Sent": "2020-12-29T01:30:00+01:00",
+        "Status": "OK",
+    }
+
+    more_stuff = session.get("https://min-side.telia.no/re/api/mssa-proxy/no/rs/messaging/sms?msisdn=47" + self.from_phone)
